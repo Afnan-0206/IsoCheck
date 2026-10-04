@@ -1,0 +1,15 @@
+# G1c negative: T1 writes to key 1, T2 writes to key 2 and reads key 1.
+# All dependencies go in the same direction: T1 -> T2. No cycle.
+#
+# T1 (idx 1): appends 1 to key 1
+# T2 (idx 3): reads key 1 = [1], appends 2 to key 2
+# Reader (idx 5): reads key 1 = [1], key 2 = [2]
+#
+# wr edge: T1 -> T2 (T2 reads T1's write on key 1)
+# No edge from T2 back to T1.
+{"index": 0, "type": "invoke", "process": 0, "f": "txn", "value": [["append", 1, 1]], "time": 0}
+{"index": 1, "type": "ok", "process": 0, "f": "txn", "value": [["append", 1, 1]], "time": 100}
+{"index": 2, "type": "invoke", "process": 1, "f": "txn", "value": [["r", 1, null], ["append", 2, 2]], "time": 200}
+{"index": 3, "type": "ok", "process": 1, "f": "txn", "value": [["r", 1, [1]], ["append", 2, 2]], "time": 300}
+{"index": 4, "type": "invoke", "process": 2, "f": "txn", "value": [["r", 1, null], ["r", 2, null]], "time": 400}
+{"index": 5, "type": "ok", "process": 2, "f": "txn", "value": [["r", 1, [1]], ["r", 2, [2]]], "time": 500}

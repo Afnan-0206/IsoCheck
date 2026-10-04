@@ -1,0 +1,15 @@
+# G1c (circular information flow): ww + wr cycle.
+#
+# T1 (idx 1): appends 1 to key 1, reads key 2 and sees [4]
+# T2 (idx 3): appends 4 to key 2, appends 2 to key 1
+# Reader (idx 5): reads key 1 = [1, 2], key 2 = [4]
+#
+# From key 1 version order [1, 2]: T1 ww-> T2
+# T1 reads key 2 = [4], which was written by T2: T2 wr-> T1
+# Cycle: T1 -[ww]-> T2 -[wr]-> T1  (has a wr edge, so G1c)
+{"index": 0, "type": "invoke", "process": 0, "f": "txn", "value": [["append", 1, 1], ["r", 2, null]], "time": 0}
+{"index": 1, "type": "ok", "process": 0, "f": "txn", "value": [["append", 1, 1], ["r", 2, [4]]], "time": 100}
+{"index": 2, "type": "invoke", "process": 1, "f": "txn", "value": [["append", 2, 4], ["append", 1, 2]], "time": 200}
+{"index": 3, "type": "ok", "process": 1, "f": "txn", "value": [["append", 2, 4], ["append", 1, 2]], "time": 300}
+{"index": 4, "type": "invoke", "process": 2, "f": "txn", "value": [["r", 1, null], ["r", 2, null]], "time": 400}
+{"index": 5, "type": "ok", "process": 2, "f": "txn", "value": [["r", 1, [1, 2]], ["r", 2, [4]]], "time": 500}
