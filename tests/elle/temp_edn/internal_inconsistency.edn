@@ -1,0 +1,2 @@
+{:index 0, :type :invoke, :process 0, :f :txn, :value [[:append 1 5] [:r 1 nil]], :time 0}
+{:index 1, :type :ok, :process 0, :f :txn, :value [[:append 1 5] [:r 1 []]], :time 100}
