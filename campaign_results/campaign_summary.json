@@ -1,0 +1,908 @@
+{
+  "READ COMMITTED": [
+    {
+      "run": 1,
+      "seed": 1000,
+      "valid": true,
+      "stats": {
+        "fail": 30,
+        "info": 0,
+        "keys": 4,
+        "ok": 490,
+        "transactions": 490
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_1_seed_1000.jsonl"
+    },
+    {
+      "run": 2,
+      "seed": 1001,
+      "valid": true,
+      "stats": {
+        "fail": 28,
+        "info": 0,
+        "keys": 4,
+        "ok": 492,
+        "transactions": 492
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_2_seed_1001.jsonl"
+    },
+    {
+      "run": 3,
+      "seed": 1002,
+      "valid": true,
+      "stats": {
+        "fail": 16,
+        "info": 0,
+        "keys": 4,
+        "ok": 504,
+        "transactions": 504
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_3_seed_1002.jsonl"
+    },
+    {
+      "run": 4,
+      "seed": 1003,
+      "valid": true,
+      "stats": {
+        "fail": 35,
+        "info": 0,
+        "keys": 4,
+        "ok": 485,
+        "transactions": 485
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_4_seed_1003.jsonl"
+    },
+    {
+      "run": 5,
+      "seed": 1004,
+      "valid": true,
+      "stats": {
+        "fail": 40,
+        "info": 0,
+        "keys": 4,
+        "ok": 480,
+        "transactions": 480
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_5_seed_1004.jsonl"
+    },
+    {
+      "run": 6,
+      "seed": 1005,
+      "valid": true,
+      "stats": {
+        "fail": 24,
+        "info": 0,
+        "keys": 4,
+        "ok": 496,
+        "transactions": 496
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_6_seed_1005.jsonl"
+    },
+    {
+      "run": 7,
+      "seed": 1006,
+      "valid": true,
+      "stats": {
+        "fail": 31,
+        "info": 0,
+        "keys": 4,
+        "ok": 489,
+        "transactions": 489
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_7_seed_1006.jsonl"
+    },
+    {
+      "run": 8,
+      "seed": 1007,
+      "valid": true,
+      "stats": {
+        "fail": 37,
+        "info": 0,
+        "keys": 4,
+        "ok": 483,
+        "transactions": 483
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_8_seed_1007.jsonl"
+    },
+    {
+      "run": 9,
+      "seed": 1008,
+      "valid": true,
+      "stats": {
+        "fail": 50,
+        "info": 0,
+        "keys": 4,
+        "ok": 470,
+        "transactions": 470
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_9_seed_1008.jsonl"
+    },
+    {
+      "run": 10,
+      "seed": 1009,
+      "valid": true,
+      "stats": {
+        "fail": 28,
+        "info": 0,
+        "keys": 4,
+        "ok": 492,
+        "transactions": 492
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_10_seed_1009.jsonl"
+    },
+    {
+      "run": 11,
+      "seed": 1010,
+      "valid": true,
+      "stats": {
+        "fail": 37,
+        "info": 0,
+        "keys": 4,
+        "ok": 483,
+        "transactions": 483
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_11_seed_1010.jsonl"
+    },
+    {
+      "run": 12,
+      "seed": 1011,
+      "valid": true,
+      "stats": {
+        "fail": 25,
+        "info": 0,
+        "keys": 4,
+        "ok": 495,
+        "transactions": 495
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_12_seed_1011.jsonl"
+    },
+    {
+      "run": 13,
+      "seed": 1012,
+      "valid": true,
+      "stats": {
+        "fail": 31,
+        "info": 0,
+        "keys": 4,
+        "ok": 489,
+        "transactions": 489
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_13_seed_1012.jsonl"
+    },
+    {
+      "run": 14,
+      "seed": 1013,
+      "valid": true,
+      "stats": {
+        "fail": 21,
+        "info": 0,
+        "keys": 4,
+        "ok": 499,
+        "transactions": 499
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_14_seed_1013.jsonl"
+    },
+    {
+      "run": 15,
+      "seed": 1014,
+      "valid": true,
+      "stats": {
+        "fail": 36,
+        "info": 0,
+        "keys": 4,
+        "ok": 484,
+        "transactions": 484
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_15_seed_1014.jsonl"
+    },
+    {
+      "run": 16,
+      "seed": 1015,
+      "valid": true,
+      "stats": {
+        "fail": 34,
+        "info": 0,
+        "keys": 4,
+        "ok": 486,
+        "transactions": 486
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_16_seed_1015.jsonl"
+    },
+    {
+      "run": 17,
+      "seed": 1016,
+      "valid": true,
+      "stats": {
+        "fail": 31,
+        "info": 0,
+        "keys": 4,
+        "ok": 489,
+        "transactions": 489
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_17_seed_1016.jsonl"
+    },
+    {
+      "run": 18,
+      "seed": 1017,
+      "valid": true,
+      "stats": {
+        "fail": 32,
+        "info": 0,
+        "keys": 4,
+        "ok": 488,
+        "transactions": 488
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_18_seed_1017.jsonl"
+    },
+    {
+      "run": 19,
+      "seed": 1018,
+      "valid": true,
+      "stats": {
+        "fail": 42,
+        "info": 0,
+        "keys": 4,
+        "ok": 478,
+        "transactions": 478
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_19_seed_1018.jsonl"
+    },
+    {
+      "run": 20,
+      "seed": 1019,
+      "valid": true,
+      "stats": {
+        "fail": 36,
+        "info": 0,
+        "keys": 4,
+        "ok": 484,
+        "transactions": 484
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_read_committed_run_20_seed_1019.jsonl"
+    }
+  ],
+  "REPEATABLE READ": [
+    {
+      "run": 1,
+      "seed": 2000,
+      "valid": true,
+      "stats": {
+        "fail": 287,
+        "info": 0,
+        "keys": 4,
+        "ok": 233,
+        "transactions": 233
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_1_seed_2000.jsonl"
+    },
+    {
+      "run": 2,
+      "seed": 2001,
+      "valid": true,
+      "stats": {
+        "fail": 293,
+        "info": 0,
+        "keys": 4,
+        "ok": 227,
+        "transactions": 227
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_2_seed_2001.jsonl"
+    },
+    {
+      "run": 3,
+      "seed": 2002,
+      "valid": true,
+      "stats": {
+        "fail": 298,
+        "info": 0,
+        "keys": 4,
+        "ok": 222,
+        "transactions": 222
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_3_seed_2002.jsonl"
+    },
+    {
+      "run": 4,
+      "seed": 2003,
+      "valid": true,
+      "stats": {
+        "fail": 283,
+        "info": 0,
+        "keys": 4,
+        "ok": 237,
+        "transactions": 237
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_4_seed_2003.jsonl"
+    },
+    {
+      "run": 5,
+      "seed": 2004,
+      "valid": true,
+      "stats": {
+        "fail": 295,
+        "info": 0,
+        "keys": 4,
+        "ok": 225,
+        "transactions": 225
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_5_seed_2004.jsonl"
+    },
+    {
+      "run": 6,
+      "seed": 2005,
+      "valid": true,
+      "stats": {
+        "fail": 286,
+        "info": 0,
+        "keys": 4,
+        "ok": 234,
+        "transactions": 234
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_6_seed_2005.jsonl"
+    },
+    {
+      "run": 7,
+      "seed": 2006,
+      "valid": true,
+      "stats": {
+        "fail": 275,
+        "info": 0,
+        "keys": 4,
+        "ok": 245,
+        "transactions": 245
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_7_seed_2006.jsonl"
+    },
+    {
+      "run": 8,
+      "seed": 2007,
+      "valid": true,
+      "stats": {
+        "fail": 293,
+        "info": 0,
+        "keys": 4,
+        "ok": 227,
+        "transactions": 227
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_8_seed_2007.jsonl"
+    },
+    {
+      "run": 9,
+      "seed": 2008,
+      "valid": true,
+      "stats": {
+        "fail": 280,
+        "info": 0,
+        "keys": 4,
+        "ok": 240,
+        "transactions": 240
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_9_seed_2008.jsonl"
+    },
+    {
+      "run": 10,
+      "seed": 2009,
+      "valid": true,
+      "stats": {
+        "fail": 282,
+        "info": 0,
+        "keys": 4,
+        "ok": 238,
+        "transactions": 238
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_10_seed_2009.jsonl"
+    },
+    {
+      "run": 11,
+      "seed": 2010,
+      "valid": true,
+      "stats": {
+        "fail": 280,
+        "info": 0,
+        "keys": 4,
+        "ok": 240,
+        "transactions": 240
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_11_seed_2010.jsonl"
+    },
+    {
+      "run": 12,
+      "seed": 2011,
+      "valid": true,
+      "stats": {
+        "fail": 271,
+        "info": 0,
+        "keys": 4,
+        "ok": 249,
+        "transactions": 249
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_12_seed_2011.jsonl"
+    },
+    {
+      "run": 13,
+      "seed": 2012,
+      "valid": true,
+      "stats": {
+        "fail": 284,
+        "info": 0,
+        "keys": 4,
+        "ok": 236,
+        "transactions": 236
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_13_seed_2012.jsonl"
+    },
+    {
+      "run": 14,
+      "seed": 2013,
+      "valid": true,
+      "stats": {
+        "fail": 276,
+        "info": 0,
+        "keys": 4,
+        "ok": 244,
+        "transactions": 244
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_14_seed_2013.jsonl"
+    },
+    {
+      "run": 15,
+      "seed": 2014,
+      "valid": true,
+      "stats": {
+        "fail": 285,
+        "info": 0,
+        "keys": 4,
+        "ok": 235,
+        "transactions": 235
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_15_seed_2014.jsonl"
+    },
+    {
+      "run": 16,
+      "seed": 2015,
+      "valid": true,
+      "stats": {
+        "fail": 270,
+        "info": 0,
+        "keys": 4,
+        "ok": 250,
+        "transactions": 250
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_16_seed_2015.jsonl"
+    },
+    {
+      "run": 17,
+      "seed": 2016,
+      "valid": true,
+      "stats": {
+        "fail": 286,
+        "info": 0,
+        "keys": 4,
+        "ok": 234,
+        "transactions": 234
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_17_seed_2016.jsonl"
+    },
+    {
+      "run": 18,
+      "seed": 2017,
+      "valid": true,
+      "stats": {
+        "fail": 284,
+        "info": 0,
+        "keys": 4,
+        "ok": 236,
+        "transactions": 236
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_18_seed_2017.jsonl"
+    },
+    {
+      "run": 19,
+      "seed": 2018,
+      "valid": true,
+      "stats": {
+        "fail": 291,
+        "info": 0,
+        "keys": 4,
+        "ok": 229,
+        "transactions": 229
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_19_seed_2018.jsonl"
+    },
+    {
+      "run": 20,
+      "seed": 2019,
+      "valid": true,
+      "stats": {
+        "fail": 281,
+        "info": 0,
+        "keys": 4,
+        "ok": 239,
+        "transactions": 239
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_repeatable_read_run_20_seed_2019.jsonl"
+    }
+  ],
+  "SERIALIZABLE": [
+    {
+      "run": 1,
+      "seed": 3000,
+      "valid": true,
+      "stats": {
+        "fail": 324,
+        "info": 0,
+        "keys": 4,
+        "ok": 196,
+        "transactions": 196
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_1_seed_3000.jsonl"
+    },
+    {
+      "run": 2,
+      "seed": 3001,
+      "valid": true,
+      "stats": {
+        "fail": 319,
+        "info": 0,
+        "keys": 4,
+        "ok": 201,
+        "transactions": 201
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_2_seed_3001.jsonl"
+    },
+    {
+      "run": 3,
+      "seed": 3002,
+      "valid": true,
+      "stats": {
+        "fail": 302,
+        "info": 0,
+        "keys": 4,
+        "ok": 218,
+        "transactions": 218
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_3_seed_3002.jsonl"
+    },
+    {
+      "run": 4,
+      "seed": 3003,
+      "valid": true,
+      "stats": {
+        "fail": 316,
+        "info": 0,
+        "keys": 4,
+        "ok": 204,
+        "transactions": 204
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_4_seed_3003.jsonl"
+    },
+    {
+      "run": 5,
+      "seed": 3004,
+      "valid": true,
+      "stats": {
+        "fail": 319,
+        "info": 0,
+        "keys": 4,
+        "ok": 201,
+        "transactions": 201
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_5_seed_3004.jsonl"
+    },
+    {
+      "run": 6,
+      "seed": 3005,
+      "valid": true,
+      "stats": {
+        "fail": 312,
+        "info": 0,
+        "keys": 4,
+        "ok": 208,
+        "transactions": 208
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_6_seed_3005.jsonl"
+    },
+    {
+      "run": 7,
+      "seed": 3006,
+      "valid": true,
+      "stats": {
+        "fail": 307,
+        "info": 0,
+        "keys": 4,
+        "ok": 213,
+        "transactions": 213
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_7_seed_3006.jsonl"
+    },
+    {
+      "run": 8,
+      "seed": 3007,
+      "valid": true,
+      "stats": {
+        "fail": 299,
+        "info": 0,
+        "keys": 4,
+        "ok": 221,
+        "transactions": 221
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_8_seed_3007.jsonl"
+    },
+    {
+      "run": 9,
+      "seed": 3008,
+      "valid": true,
+      "stats": {
+        "fail": 312,
+        "info": 0,
+        "keys": 4,
+        "ok": 208,
+        "transactions": 208
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_9_seed_3008.jsonl"
+    },
+    {
+      "run": 10,
+      "seed": 3009,
+      "valid": true,
+      "stats": {
+        "fail": 335,
+        "info": 0,
+        "keys": 4,
+        "ok": 185,
+        "transactions": 185
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_10_seed_3009.jsonl"
+    },
+    {
+      "run": 11,
+      "seed": 3010,
+      "valid": true,
+      "stats": {
+        "fail": 310,
+        "info": 0,
+        "keys": 4,
+        "ok": 210,
+        "transactions": 210
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_11_seed_3010.jsonl"
+    },
+    {
+      "run": 12,
+      "seed": 3011,
+      "valid": true,
+      "stats": {
+        "fail": 309,
+        "info": 0,
+        "keys": 4,
+        "ok": 211,
+        "transactions": 211
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_12_seed_3011.jsonl"
+    },
+    {
+      "run": 13,
+      "seed": 3012,
+      "valid": true,
+      "stats": {
+        "fail": 302,
+        "info": 0,
+        "keys": 4,
+        "ok": 218,
+        "transactions": 218
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_13_seed_3012.jsonl"
+    },
+    {
+      "run": 14,
+      "seed": 3013,
+      "valid": true,
+      "stats": {
+        "fail": 314,
+        "info": 0,
+        "keys": 4,
+        "ok": 206,
+        "transactions": 206
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_14_seed_3013.jsonl"
+    },
+    {
+      "run": 15,
+      "seed": 3014,
+      "valid": true,
+      "stats": {
+        "fail": 301,
+        "info": 0,
+        "keys": 4,
+        "ok": 219,
+        "transactions": 219
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_15_seed_3014.jsonl"
+    },
+    {
+      "run": 16,
+      "seed": 3015,
+      "valid": true,
+      "stats": {
+        "fail": 319,
+        "info": 0,
+        "keys": 4,
+        "ok": 201,
+        "transactions": 201
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_16_seed_3015.jsonl"
+    },
+    {
+      "run": 17,
+      "seed": 3016,
+      "valid": true,
+      "stats": {
+        "fail": 310,
+        "info": 0,
+        "keys": 4,
+        "ok": 210,
+        "transactions": 210
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_17_seed_3016.jsonl"
+    },
+    {
+      "run": 18,
+      "seed": 3017,
+      "valid": true,
+      "stats": {
+        "fail": 314,
+        "info": 0,
+        "keys": 4,
+        "ok": 206,
+        "transactions": 206
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_18_seed_3017.jsonl"
+    },
+    {
+      "run": 19,
+      "seed": 3018,
+      "valid": true,
+      "stats": {
+        "fail": 309,
+        "info": 0,
+        "keys": 4,
+        "ok": 211,
+        "transactions": 211
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_19_seed_3018.jsonl"
+    },
+    {
+      "run": 20,
+      "seed": 3019,
+      "valid": true,
+      "stats": {
+        "fail": 310,
+        "info": 0,
+        "keys": 4,
+        "ok": 210,
+        "transactions": 210
+      },
+      "anomalies": [],
+      "anomaly_details": [],
+      "history_file": "campaign_results\\history_serializable_run_20_seed_3019.jsonl"
+    }
+  ]
+}

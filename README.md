@@ -1,7 +1,7 @@
 # IsoCheck: Black-Box Transactional Isolation Checker
 
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-18-blue.svg)](https://www.postgresql.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.2-blue.svg)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 IsoCheck is a high-performance black-box transactional isolation checker implemented in **C++20** with a **Python 3.12** workload harness. It infers dependency graphs from client-observed transaction histories and detects isolation anomalies via strongly connected component (SCC) and minimal cycle search.
@@ -60,7 +60,7 @@ IsoCheck/
 │   ├── run_campaign.py         # 20-seed acceptance campaign runner
 │   └── requirements.txt
 ├── tests/                      # Unit test suites and hand-crafted fixtures
-│   ├── fixtures/               # 12 JSONL test fixtures (positive & negative cases)
+│   ├── fixtures/               # 17 JSONL test fixtures (positive & negative cases)
 │   └── core/                   # GoogleTest suites (history, version_order, graph, checker)
 └── docs/                       # Project documentation
     ├── ARCHITECTURE.md         # Invariants, components, and data flow
@@ -88,9 +88,13 @@ ninja
 
 ### Running Unit Tests
 ```bash
+# C++ GoogleTest suite (33 tests)
 ./build/tests/isocheck_tests
+
+# Python workload unit tests (5 tests)
+pytest tests/test_workload.py
 ```
-All 26 unit tests run across 4 suites covering parsing, version inference, iterative Tarjan SCC, BFS shortest cycle detection, and all 12 positive/negative anomaly fixtures.
+All 33 C++ unit tests run across 4 suites covering parsing, version inference, iterative Tarjan SCC, BFS shortest cycle detection, exact witness string formatting, duplicate element detection, and all 17 positive/negative anomaly fixtures. All 5 pytest tests verify seed reproducibility, unique values, Zipfian skew, and template validity.
 
 ### Running the CLI
 ```bash
@@ -101,12 +105,19 @@ All 26 unit tests run across 4 suites covering parsing, version inference, itera
 ./build/cli/isocheck --json history.jsonl
 ```
 
-### Running the Postgres Campaign
+### Running the Postgres Acceptance Campaign
 ```bash
-python3 harness/run_campaign.py \
+python harness/run_campaign.py \
     --checker-bin ./build/cli/isocheck \
     --runs 20 \
-    --clients 4 \
-    --txns 25
+    --clients 8 \
+    --txns 65
 ```
-# IsoCheck
+
+### Running the Positive Control Workload
+```bash
+python harness/buggy_runner.py \
+    --checker-bin ./build/cli/isocheck \
+    --runs 20 \
+    --isolation "READ COMMITTED"
+```

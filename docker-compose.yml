@@ -1,0 +1,57 @@
+# IsoCheck infrastructure
+# Usage: docker compose up -d postgres
+#        docker compose run --rm isocheck-test
+services:
+  postgres:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: isocheck_admin
+      POSTGRES_PASSWORD: isocheck_admin
+      POSTGRES_DB: isocheck
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    # Tuning for testing: fsync off for speed (NOT for production)
+    command: >
+      postgres
+        -c fsync=off
+        -c synchronous_commit=off
+        -c max_connections=200
+        -c shared_buffers=256MB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U isocheck_app -d isocheck"]
+      interval: 2s
+      timeout: 5s
+      retries: 10
+
+  # Toxiproxy sits between harness and Postgres for fault injection (Phase 2)
+  toxiproxy:
+    image: ghcr.io/shopify/toxiproxy:2.9.0
+    ports:
+      - "8474:8474"   # API
+      - "5433:5433"   # Proxied Postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Build and run C++ tests inside Docker
+  isocheck-build:
+    build:
+      context: .
+      target: builder
+    volumes:
+      - ./tests/fixtures:/src/tests/fixtures:ro
+
+  isocheck-test:
+    build:
+      context: .
+      target: test
+
+  # Run the checker CLI
+  isocheck:
+    build:
+      context: .
+      target: runtime
+    volumes:
+      - ./data:/data:ro
