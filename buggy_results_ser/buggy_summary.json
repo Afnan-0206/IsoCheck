@@ -1,0 +1,265 @@
+{
+  "isolation": "SERIALIZABLE",
+  "results": [
+    {
+      "run": 1,
+      "seed": 5000,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 380,
+        "info": 0,
+        "keys": 3,
+        "ok": 124,
+        "transactions": 124
+      }
+    },
+    {
+      "run": 2,
+      "seed": 5001,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 368,
+        "info": 0,
+        "keys": 3,
+        "ok": 136,
+        "transactions": 136
+      }
+    },
+    {
+      "run": 3,
+      "seed": 5002,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 387,
+        "info": 0,
+        "keys": 3,
+        "ok": 117,
+        "transactions": 117
+      }
+    },
+    {
+      "run": 4,
+      "seed": 5003,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 397,
+        "info": 0,
+        "keys": 3,
+        "ok": 107,
+        "transactions": 107
+      }
+    },
+    {
+      "run": 5,
+      "seed": 5004,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 381,
+        "info": 0,
+        "keys": 3,
+        "ok": 123,
+        "transactions": 123
+      }
+    },
+    {
+      "run": 6,
+      "seed": 5005,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 377,
+        "info": 0,
+        "keys": 3,
+        "ok": 127,
+        "transactions": 127
+      }
+    },
+    {
+      "run": 7,
+      "seed": 5006,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 381,
+        "info": 0,
+        "keys": 3,
+        "ok": 123,
+        "transactions": 123
+      }
+    },
+    {
+      "run": 8,
+      "seed": 5007,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 388,
+        "info": 0,
+        "keys": 3,
+        "ok": 116,
+        "transactions": 116
+      }
+    },
+    {
+      "run": 9,
+      "seed": 5008,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 395,
+        "info": 0,
+        "keys": 3,
+        "ok": 109,
+        "transactions": 109
+      }
+    },
+    {
+      "run": 10,
+      "seed": 5009,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 382,
+        "info": 0,
+        "keys": 3,
+        "ok": 122,
+        "transactions": 122
+      }
+    },
+    {
+      "run": 11,
+      "seed": 5010,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 384,
+        "info": 0,
+        "keys": 3,
+        "ok": 120,
+        "transactions": 120
+      }
+    },
+    {
+      "run": 12,
+      "seed": 5011,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 385,
+        "info": 0,
+        "keys": 3,
+        "ok": 119,
+        "transactions": 119
+      }
+    },
+    {
+      "run": 13,
+      "seed": 5012,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 383,
+        "info": 0,
+        "keys": 3,
+        "ok": 121,
+        "transactions": 121
+      }
+    },
+    {
+      "run": 14,
+      "seed": 5013,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 376,
+        "info": 0,
+        "keys": 3,
+        "ok": 128,
+        "transactions": 128
+      }
+    },
+    {
+      "run": 15,
+      "seed": 5014,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 390,
+        "info": 0,
+        "keys": 3,
+        "ok": 114,
+        "transactions": 114
+      }
+    },
+    {
+      "run": 16,
+      "seed": 5015,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 377,
+        "info": 0,
+        "keys": 3,
+        "ok": 127,
+        "transactions": 127
+      }
+    },
+    {
+      "run": 17,
+      "seed": 5016,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 379,
+        "info": 0,
+        "keys": 3,
+        "ok": 125,
+        "transactions": 125
+      }
+    },
+    {
+      "run": 18,
+      "seed": 5017,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 396,
+        "info": 0,
+        "keys": 3,
+        "ok": 108,
+        "transactions": 108
+      }
+    },
+    {
+      "run": 19,
+      "seed": 5018,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 379,
+        "info": 0,
+        "keys": 3,
+        "ok": 125,
+        "transactions": 125
+      }
+    },
+    {
+      "run": 20,
+      "seed": 5019,
+      "valid": true,
+      "anomalies": [],
+      "stats": {
+        "fail": 383,
+        "info": 0,
+        "keys": 3,
+        "ok": 121,
+        "transactions": 121
+      }
+    }
+  ]
+}
