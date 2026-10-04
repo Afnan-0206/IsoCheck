@@ -1,0 +1,20 @@
+{"index": 0, "type": "invoke", "process": 0, "f": "txn", "value": [["r", 2, null], ["r", 0, null], ["append", 2, 1]], "time": 1791023882701815591}
+{"index": 1, "type": "invoke", "process": 1, "f": "txn", "value": [["append", 0, 4294967297], ["append", 1, 4294967298], ["r", 2, null]], "time": 1791023882703107915}
+{"index": 2, "type": "ok", "process": 0, "f": "txn", "value": [["r", 2, null], ["r", 0, null], ["append", 2, 1]], "time": 1791023882724068371}
+{"index": 3, "type": "invoke", "process": 0, "f": "txn", "value": [["r", 3, null], ["r", 1, null], ["append", 0, 2]], "time": 1791023882724226452}
+{"index": 4, "type": "ok", "process": 1, "f": "txn", "value": [["append", 0, 4294967297], ["append", 1, 4294967298], ["r", 2, null]], "time": 1791023882726078614}
+{"index": 5, "type": "invoke", "process": 1, "f": "txn", "value": [["append", 1, 4294967299], ["append", 3, 4294967300], ["r", 3, null]], "time": 1791023882726120123}
+{"index": 6, "type": "ok", "process": 0, "f": "txn", "value": [["r", 3, null], ["r", 1, [4294967298]], ["append", 0, 2]], "time": 1791023882730135706}
+{"index": 7, "type": "invoke", "process": 0, "f": "txn", "value": [["r", 0, null], ["append", 2, 3], ["append", 0, 4]], "time": 1791023882730167947}
+{"index": 8, "type": "ok", "process": 1, "f": "txn", "value": [["append", 1, 4294967299], ["append", 3, 4294967300], ["r", 3, [4294967300]]], "time": 1791023882732147372}
+{"index": 9, "type": "invoke", "process": 1, "f": "txn", "value": [["append", 1, 4294967301], ["append", 0, 4294967302], ["append", 1, 4294967303]], "time": 1791023882732260206}
+{"index": 10, "type": "ok", "process": 0, "f": "txn", "value": [["r", 0, [4294967297, 2]], ["append", 2, 3], ["append", 0, 4]], "time": 1791023882735804336}
+{"index": 11, "type": "invoke", "process": 0, "f": "txn", "value": [["r", 3, null], ["append", 3, 5], ["r", 0, null]], "time": 1791023882735843330}
+{"index": 12, "type": "ok", "process": 1, "f": "txn", "value": [["append", 1, 4294967301], ["append", 0, 4294967302], ["append", 1, 4294967303]], "time": 1791023882739936716}
+{"index": 13, "type": "invoke", "process": 1, "f": "txn", "value": [["append", 1, 4294967304], ["r", 0, null], ["append", 2, 4294967305]], "time": 1791023882739977143}
+{"index": 14, "type": "ok", "process": 0, "f": "txn", "value": [["r", 3, [4294967300]], ["append", 3, 5], ["r", 0, [4294967297, 2, 4]]], "time": 1791023882741911497}
+{"index": 15, "type": "invoke", "process": 0, "f": "txn", "value": [["r", 4, null], ["r", 0, null], ["append", 3, 6]], "time": 1791023882741937606}
+{"index": 16, "type": "ok", "process": 1, "f": "txn", "value": [["append", 1, 4294967304], ["r", 0, [4294967297, 2, 4, 4294967302]], ["append", 2, 4294967305]], "time": 1791023882745566006}
+{"index": 17, "type": "invoke", "process": 1, "f": "txn", "value": [["r", 0, null], ["r", 2, null], ["r", 2, null]], "time": 1791023882745606874}
+{"index": 18, "type": "ok", "process": 0, "f": "txn", "value": [["r", 4, null], ["r", 0, [4294967297, 2, 4, 4294967302]], ["append", 3, 6]], "time": 1791023882748487105}
+{"index": 19, "type": "ok", "process": 1, "f": "txn", "value": [["r", 0, [4294967297, 2, 4, 4294967302]], ["r", 2, [1, 3, 4294967305]], ["r", 2, [1, 3, 4294967305]]], "time": 1791023882749916071}
