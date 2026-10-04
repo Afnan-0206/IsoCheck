@@ -1,0 +1,189 @@
+[
+  {
+    "fixture": "clean_serial.jsonl",
+    "model": "strict-serializable",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "duplicate_read_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "duplicate_read_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g0_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g0_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "G0"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1a_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1a_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "garbage-read",
+      "G1a"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1b_3_appends_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1b_3_appends_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "G1b"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1b_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1b_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "G1b"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "g1c_negative.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": true,
+    "elle_anomalies": [],
+    "agree": true,
+    "notes": "Both cleanly valid"
+  },
+  {
+    "fixture": "g1c_positive.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "G1c"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "garbage_read.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "garbage-read"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "inconsistent_read.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "G1a"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "internal_inconsistency.jsonl",
+    "model": "read-committed",
+    "isocheck_valid": false,
+    "isocheck_anomalies": [
+      "internal-inconsistency"
+    ],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  },
+  {
+    "fixture": "self_loop_rw.jsonl",
+    "model": "serializable",
+    "isocheck_valid": true,
+    "isocheck_anomalies": [],
+    "elle_valid": false,
+    "elle_anomalies": [],
+    "agree": false,
+    "notes": "TIMEOUT: thread starvation deadlock in elle-cli fold"
+  }
+]
