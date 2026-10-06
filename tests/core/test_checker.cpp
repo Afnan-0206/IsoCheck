@@ -79,6 +79,13 @@ TEST(CheckerTest, G1aNegative) {
     EXPECT_FALSE(has_anomaly(r, AnomalyType::kG1a));
 }
 
+TEST(CheckerTest, G1aIgnoresUnexecutedAndWrongKeyAppends) {
+    History h = load_fixture("g1a_wrong_key_unexecuted.jsonl");
+    CheckResult r = check(h);
+    EXPECT_TRUE(r.valid);
+    EXPECT_FALSE(has_anomaly(r, AnomalyType::kG1a));
+}
+
 TEST(CheckerTest, G1bPositive) {
     History h = load_fixture("g1b_positive.jsonl");
     CheckResult r = check(h);
@@ -90,6 +97,12 @@ TEST(CheckerTest, G1bNegative) {
     History h = load_fixture("g1b_negative.jsonl");
     CheckResult r = check(h);
     EXPECT_TRUE(r.valid);
+    EXPECT_FALSE(has_anomaly(r, AnomalyType::kG1b));
+}
+
+TEST(CheckerTest, G1bDoesNotUseFutureNonOverlappingWriter) {
+    History h = load_fixture("g1b_future_writer_negative.jsonl");
+    CheckResult r = check(h);
     EXPECT_FALSE(has_anomaly(r, AnomalyType::kG1b));
 }
 

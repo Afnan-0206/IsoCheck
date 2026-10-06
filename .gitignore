@@ -33,6 +33,8 @@ desktop.ini
 # Test artifacts
 tests/output/
 *.jsonl.out
+*.jar
+tests/elle/temp_edn/*.edn
 
 # Benchmark results (committed selectively)
 bench/results/

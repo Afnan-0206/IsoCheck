@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Dict, Any, List
 
 from workload import WorkloadConfig
-from runner import run_workload
+from runner import count_sqlstates, run_workload
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("campaign")
@@ -94,6 +94,7 @@ def run_campaign(
                 "anomalies": [a.get("type") for a in check_data.get("anomalies", [])],
                 "anomaly_details": check_data.get("anomalies", []),
                 "history_file": history_file,
+                "sqlstates": count_sqlstates(history),
             }
             results[level].append(run_result)
 
@@ -122,6 +123,18 @@ def print_summary_table(results: Dict[str, List[Dict[str, Any]]]):
             types_observed.update(r["anomalies"])
         types_str = ", ".join(sorted(types_observed)) if types_observed else "None"
         print(f"{level:<18} | {total:<5} | {clean:<5} | {anomalous:<5} | {total_ok:<9} | {total_fail:<13} | {total_info:<5} | {types_str}")
+        sqlstate_counts = {
+            "40001": {"fail": 0, "info": 0},
+            "40P01": {"fail": 0, "info": 0},
+            "other": {"fail": 0, "info": 0},
+        }
+        for run in runs:
+            for row in run.get("sqlstates", []):
+                state = row["sqlstate"]
+                bucket = state if state in ("40001", "40P01") else "other"
+                if row["status"] in ("fail", "info"):
+                    sqlstate_counts[bucket][row["status"]] += row["count"]
+        print(f"  SQLSTATE fail/info: {sqlstate_counts}")
     print("=" * 95 + "\n")
 
 

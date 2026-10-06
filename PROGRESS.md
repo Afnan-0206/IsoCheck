@@ -1,106 +1,67 @@
-# IsoCheck Project Progress Tracker
+# IsoCheck Progress Tracker
 
-## 1. Current Phase
-**Phase 1 Remediation Complete / Phase 2 Pre-Implementation Review (Conditionally Approved)**
-- All Phase 1 remediation items verified and empirical evidence collected.
-- Phase 2 design review feedback addressed (Items A through F).
-- Awaiting final Phase 2 authorization before initiating Phase 2 implementation.
+## Phase
+Phase 1 evidence remediation and Phase 2 design review. Phase 2 implementation is **on hold** pending the user's explicit approval. No Phase 2 feature implementation was started in this remediation pass.
 
----
+## Completed In This Remediation
+- Fixed G1a candidate matching: use only append micro-ops in a paired `fail` completion; match on key and value; require temporal overlap between the failed transaction and the successful reader.
+- Added a clean G1a regression fixture for an unexecuted planned append and a wrong-key read.
+- Added converter validation for dense operation indices, paired invokes/completions, valid operation types, and supported micro-op shape. Added four pytest cases.
+- Changed the Elle differential runner to use the `read-committed` (PL-2) model matching the current Phase 1 checker and to count an invalid history as agreement only with a mapped corresponding anomaly class.
+- Added per-completion SQLSTATE metadata and per-run SQLSTATE aggregation for future correct and buggy campaigns.
+- Rebuilt the WSL C++ targets; all 34 C++ tests pass. The 4 focused converter tests pass.
+- Confirmed Elle CLI 0.1.11 hangs on minimal valid `:fail` and G1b histories under Java 21; captured thread dumps. See `docs/PHASE_2_REMEDIATION_REPORT.md`.
 
-## 2. Completed Items
+## Open / Blocked
+- Historical campaign SQLSTATE breakdown: the stored histories/summaries contain no SQLSTATE field. Docker Desktop is unavailable, so campaigns cannot be rerun in this environment. Existing fail totals cannot be retroactively split into 40001, 40P01, and other.
+- Correct-append READ COMMITTED's 644 fail statuses are consistent with lock/deadlock contention from transactions touching unsorted multiple keys, but this has not been proven from historical SQLSTATE evidence. Do not report them as all 40P01 until a clean rerun confirms it.
+- The remaining G1b/incompatible-order findings require the approved Phase 2 rule: exclude keys whose reads do not form one prefix chain and suppress their guessed graph edges. That implementation is not authorized before Phase 2 approval.
+- Adya paper section numbers were not verified from the primary PDF in this environment. The report distinguishes verified Elle source mappings from claims whose primary-source section citation remains open.
+- Four existing Elle hangs are confirmed in minimal histories for G1a and G1b; two large RC campaign history timeouts remain run-specific unknowns. Elle converter output is now structurally validated.
+- Campaign SQLSTATE rerun, Postgres settings/runtime audit beyond the tracked compose configuration, and restoration/reconfirmation of database state require Docker access.
 
-### Core Verification Engine (Phase 1)
-- [x] **History Parser & Micro-Op Architecture**: Support for list-append workloads (`invoke`, `ok`, `fail`, `info`), micro-ops (`append`, `read`), and transaction extraction (`core/src/history.cpp`).
-- [x] **Version Order Inference**: Per-key version order reconstruction from read prefixes, duplicate element checking, and prefix consistency checking (`core/src/version_order.cpp`).
-- [x] **Conflict Graph Construction**: Inference of write-write ($ww$), write-read ($wr$), and read-write anti-dependency ($rw$) edges from version order, plus process-order ($po$) and real-time ($rt$) edges (`core/src/graph.cpp`).
-- [x] **SCC Decomposition**: Tarjan's Strongly Connected Components algorithm for isolating cyclic dependency components (`core/src/scc.cpp`).
-- [x] **Constrained Shortest Cycle Detection**: BFS-based cycle witness search with exact path reconstruction and priority edge classification (`core/src/cycle.cpp`).
-- [x] **Anomaly Detection**: Comprehensive detection of $G0$ (write cycles), $G1a$ (aborted reads), $G1b$ (intermediate reads), $G1c$ (circular information flow), $G\text{-single}$ (single anti-dependency cycles), and version inconsistencies (`duplicate-read`, `inconsistent-read`, `garbage-read`) (`core/src/checker.cpp`).
-- [x] **CLI Tool (`isocheck`)**: Command-line interface with stdout witness printing, `--level` thresholding, and `--json` machine-readable output (`cli/src/main.cpp`).
+## Decisions Approved By User
+- Always compute the full hierarchical verdict; `--level` controls exit code only.
+- SCC candidate cap approved: deterministic by edge index, configurable and reported; mark `witness not proven minimal` when capped.
+- Incompatible per-key read order means no inferable version order; report incompatible-order and emit no rw/ww edges from a guessed linearization; use the longest consistent chain or exclude the key.
+- SimDB must cover a crash mid-transaction and a crash after commit before acknowledgment.
+- JSON schema: `schema_version`, justifying operations per edge, `witness_minimal`, and retain the one-line text witness.
 
-### Validation, Harness & Comparative Campaign
-- [x] **Test Fixture Suite**: 17 curated test fixtures covering all isolation levels, positive/negative anomaly cases, and edge scenarios (`tests/fixtures/`).
-- [x] **Unit & End-to-End Tests**: 34 unit and integration tests verifying graph construction, cycle finding, witness formatting, and CLI exit codes (`tests/core/test_checker.cpp`).
-- [x] **PostgreSQL 17.2 Harness**: Concurrent multithreaded test harness with connection pooling, monotonic indexing, and strict error classification (`harness/postgres.py`, `harness/runner.py`).
-- [x] **Full 60-Run Empirical Campaign**: 20 seeded runs across 3 isolation levels (Read Committed, Repeatable Read, Serializable) totaling 31,200 transactions (`campaign_results/campaign_summary.json`):
-  * **Read Committed**: 9,756 ok, 644 fail (all SQLSTATE 40P01 deadlocks), 0 info. Zero $G0, G1a, G1b, G1c$ anomalies.
-  * **Repeatable Read**: 4,720 ok, 5,680 fail (all SQLSTATE 40001 serialization failures), 0 info. Zero anomalies.
-  * **Serializable**: 4,157 ok, 6,243 fail (all SQLSTATE 40001 serialization failures), 0 info. Zero anomalies.
-- [x] **Buggy Append Positive Control**: 20-run campaign under buggy read-modify-write without row locks:
-  * **Read Committed**: 100% of runs flagged for isolation anomalies (dominant: `inconsistent-read` lost updates).
-  * **Serializable**: 100% clean (PostgreSQL SSI detects conflicts and aborts racing transactions before commit).
-- [x] **Elle (Jepsen) Differential Testing**: Automated conversion pipeline from IsoCheck JSONL to Clojure EDN, differential test runner in pinned Docker JDK (`eclipse-temurin:21-jdk`), and comparative verdict table (`tests/elle/`).
-- [x] **Elle-CLI Bug Reproduction**: Minimal reproduction and thread dump excerpt confirming thread starvation deadlock in `elle-cli 0.1.11` / Jepsen's parallel fold on small histories.
+These approvals authorize design, not implementation. No Phase 2 code until the user approves after reviewing the A-F resubmission.
 
----
-
-## 3. Open Items (Phase 2 Scope)
-
-- [ ] **Item 1: Incompatible Version Order Handling**: When reads on a key cannot form a single prefix chain, report `incompatible-order` and do NOT emit guessed $rw$/$ww$ edges. Implement the longest consistent chain heuristic / key exclusion as designed from Elle. Add test fixtures.
-- [ ] **Item 2: Configurable Cycle Search Cap**: Bound search in large SCCs by candidate count/edge index. When bounded, report cycle candidate with `"witness not proven minimal"` annotation.
-- [ ] **Item 3: Simulated Database (SimDB) Failure Modes**: In-memory database simulation supporting crash mid-transaction (orphan/aborted writes for $G1a$ positive control) and crash post-commit before client acknowledgment (indeterminate `info` status).
-- [ ] **Item 4: Hierarchical Verdict Profile**: Always evaluate and output compliance against all consistency levels ($PL\text{-}1, PL\text{-}2, PL\text{-}2+, PL\text{-}SI, PL\text{-}3, \text{Strict-Serializable}$). `--level` only sets CLI exit code.
-- [ ] **Item 5: Extended JSON Schema**: Add `schema_version`, per-edge justifying operations in cycle witnesses, and boolean `witness_minimal` flag.
-
----
-
-## 4. Key Decisions & Approvals
-
-| Decision | Topic | Status | User Approval Reference |
-|---|---|---|---|
-| **D-1** | Full Hierarchical Profile | Approved | "Compute the full hierarchical verdict profile always; --level only sets the exit code." |
-| **D-2** | SCC Cycle Search Bound | Approved | "SCC cap: approved. Candidates by edge index, configurable, reported in the verdict, 'witness not proven minimal' when capped." |
-| **D-3** | Incompatible Order Handling | Approved | "If reads on a key are not all prefixes of one chain, the version order is not inferable. Report incompatible-order and do NOT emit rw/ww edges from a guessed linearization. Use only the longest consistent chain, or exclude the key." |
-| **D-4** | SimDB Fault Injection | Approved | "simdb must support crash mid-transaction (orphan or aborted writes, G1a controls) and crash after commit before ack (info)." |
-| **D-5** | JSON Schema Extensions | Approved | "JSON schema approved: add schema_version, per-edge justifying ops, witness_minimal. Keep the one-line text witness." |
-| **D-6** | Witness Formatting | Approved | No duplicated start node, no "Cycle:" prefix; clean arrow-delimited transaction path (`T0 -> T1 -> T0`). |
-
----
-
-## 5. Exact Resume Commands
-
-### Build Engine and Tests
-```bash
-cmake -B build -G Ninja
-cmake --build build
-ctest --test-dir build --output-on-failure
+## Exact Resume Commands (Windows Workspace + WSL Build)
+Build and run C++ tests:
+```powershell
+wsl -e cmake --build /home/hp/isocheck-build --parallel 4
+wsl -e ctest --test-dir /home/hp/isocheck-build --output-on-failure
 ```
 
-### Run IsoCheck on a History
-```bash
-./build/cli/isocheck tests/fixtures/clean_serial.jsonl
-./build/cli/isocheck --json tests/fixtures/g0_positive.jsonl
+Focused G1a tests:
+```powershell
+wsl -e /home/hp/isocheck-build/tests/isocheck_tests --gtest_filter='CheckerTest.G1a*'
 ```
 
-### Run PostgreSQL Campaign (60 Runs)
-```bash
-python harness/run_campaign.py \
-  --checker-bin ./build/cli/isocheck \
-  --runs 20 \
-  --clients 8 \
-  --txns 65 \
-  --output-dir campaign_results
+Converter tests:
+```powershell
+C:/Users/hp/AppData/Local/Microsoft/WindowsApps/python3.12.exe -m pytest tests/test_elle_convert.py -q
 ```
 
-### Run Buggy Positive Control
-```bash
-# Read Committed (expect 100% flagged)
-python harness/buggy_runner.py \
-  --checker-bin ./build/cli/isocheck \
-  --isolation "READ COMMITTED" \
-  --runs 20 \
-  --output-dir buggy_results_rc
-
-# Serializable (expect 100% clean due to SSI)
-python harness/buggy_runner.py \
-  --checker-bin ./build/cli/isocheck \
-  --isolation "SERIALIZABLE" \
-  --runs 20 \
-  --output-dir buggy_results_ser
+Elle comparison at the Phase 1 checker level (requires Java 21 and the local jar; checker path below is the existing WSL build):
+```powershell
+$env:CHECKER_BIN='/home/hp/isocheck-build/cli/isocheck'
+C:/Users/hp/AppData/Local/Microsoft/WindowsApps/python3.12.exe tests/elle/run_differential.py
 ```
 
-### Run Elle Comparative Verification
-```bash
-python tests/elle/test_fixtures_batch.py
+Fresh correct campaign (requires Docker Desktop/Compose, active Postgres service, and psycopg dependencies):
+```powershell
+docker compose up -d postgres
+C:/Users/hp/AppData/Local/Microsoft/WindowsApps/python3.12.exe harness/run_campaign.py --checker-bin /home/hp/isocheck-build/cli/isocheck --runs 20 --clients 8 --txns 65 --output-dir campaign_results_clean
 ```
+
+Fresh buggy READ COMMITTED positive control:
+```powershell
+C:/Users/hp/AppData/Local/Microsoft/WindowsApps/python3.12.exe harness/buggy_runner.py --checker-bin /home/hp/isocheck-build/cli/isocheck --isolation 'READ COMMITTED' --runs 20 --output-dir buggy_results_rc_clean
+```
+
+## Report
+See [docs/PHASE_2_REMEDIATION_REPORT.md](docs/PHASE_2_REMEDIATION_REPORT.md) for the A-F evidence and remaining questions. Stop after that review; do not begin Phase 2 coding until the user approves.

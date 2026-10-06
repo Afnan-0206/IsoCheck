@@ -125,30 +125,35 @@ static std::vector<Anomaly> check_g1a(
 
     std::vector<Anomaly> anomalies;
 
-    // Collect all values appended by failed (aborted) transactions
-    std::unordered_set<int64_t> aborted_values;
-    std::unordered_map<int64_t, int64_t> aborted_val_to_process;
+    struct AbortedWrite {
+        int64_t process;
+        int64_t invoke_time;
+        int64_t fail_time;
+    };
 
-    // We need to look at the raw history to find fail ops
+    // A fail completion records only the micro-ops that actually ran before
+    // rollback. Invoke values are plans, and may contain unexecuted appends.
+    std::unordered_map<int64_t, std::unordered_map<int64_t, AbortedWrite>> aborted_values;
     std::unordered_map<int64_t, const Op*> pending_invokes;
+    std::unordered_map<int64_t, const Op*> ok_invokes;
 
     for (const auto& op : history.ops) {
         if (op.type == OpType::kInvoke) {
             pending_invokes[op.process] = &op;
-        } else if (op.type == OpType::kFail) {
-            auto it = pending_invokes.find(op.process);
-            if (it != pending_invokes.end()) {
-                // The invoke has the append operations
-                for (const auto& mop : it->second->value) {
+        } else {
+            auto invoke = pending_invokes.find(op.process);
+            if (invoke == pending_invokes.end()) continue;
+            if (op.type == OpType::kFail) {
+                for (const auto& mop : op.value) {
                     if (mop.type == MicroOpType::kAppend) {
-                        aborted_values.insert(mop.append_val);
-                        aborted_val_to_process[mop.append_val] = op.process;
+                        aborted_values[mop.key][mop.append_val] = {
+                            op.process, invoke->second->time, op.time};
                     }
                 }
-                pending_invokes.erase(it);
+            } else if (op.type == OpType::kOk) {
+                ok_invokes[op.index] = invoke->second;
             }
-        } else {
-            pending_invokes.erase(op.process);
+            pending_invokes.erase(invoke);
         }
     }
 
@@ -158,13 +163,24 @@ static std::vector<Anomaly> check_g1a(
     // Look at ok-completed transactions in the extracted set.
     for (const auto& op : history.ops) {
         if (op.type != OpType::kOk) continue;
+        auto reader_invoke = ok_invokes.find(op.index);
+        if (reader_invoke == ok_invokes.end()) continue;
 
         for (const auto& mop : op.value) {
             if (mop.type != MicroOpType::kRead) continue;
             if (!mop.read_result.has_value()) continue;
 
             for (int64_t val : mop.read_result.value()) {
-                if (aborted_values.count(val)) {
+                auto key_values = aborted_values.find(mop.key);
+                if (key_values == aborted_values.end()) continue;
+                auto aborted = key_values->second.find(val);
+                if (aborted == key_values->second.end()) continue;
+                if (aborted->second.invoke_time >= op.time ||
+                    reader_invoke->second->time >= aborted->second.fail_time) {
+                    continue;
+                }
+
+                {
                     anomalies.push_back({
                         AnomalyType::kG1a,
                         "G1a (aborted read): committed txn " +
@@ -173,7 +189,7 @@ static std::vector<Anomaly> check_g1a(
                         std::to_string(val) + " from key " +
                         std::to_string(mop.key) +
                         ", which was written by aborted process " +
-                        std::to_string(aborted_val_to_process[val]),
+                        std::to_string(aborted->second.process),
                         std::nullopt,
                         {op.index},
                     });
@@ -203,6 +219,8 @@ static std::vector<Anomaly> check_g1b(
         int64_t txn_index;
         int64_t key;
         int64_t final_val;
+        int64_t invoke_time;
+        int64_t complete_time;
     };
     std::unordered_map<int64_t, IntermediateInfo> intermediate_appends;
 
@@ -220,7 +238,8 @@ static std::vector<Anomaly> check_g1b(
             if (vals.size() > 1) {
                 int64_t final_val = vals.back();
                 for (size_t i = 0; i + 1 < vals.size(); ++i) {
-                    intermediate_appends[vals[i]] = IntermediateInfo{txn.index, key, final_val};
+                    intermediate_appends[vals[i]] = IntermediateInfo{
+                        txn.index, key, final_val, txn.invoke_time, txn.complete_time};
                 }
             }
         }
@@ -241,7 +260,11 @@ static std::vector<Anomaly> check_g1b(
             auto it = intermediate_appends.find(last_val);
             if (it != intermediate_appends.end()) {
                 const auto& info = it->second;
-                if (info.txn_index != txn.index && info.key == mop.key) {
+                const bool intervals_overlap =
+                    info.invoke_time <= txn.complete_time &&
+                    txn.invoke_time <= info.complete_time;
+                if (info.txn_index != txn.index && info.key == mop.key &&
+                    intervals_overlap) {
                     anomalies.push_back({
                         AnomalyType::kG1b,
                         "G1b (intermediate read): txn " +
@@ -284,7 +307,24 @@ CheckResult check(const History& history) {
     result.transaction_count = txns.size();
 
     // --- Step 3: Infer version orders + non-cycle anomalies ---
-    auto [vo, inference_anomalies] = infer_version_orders(txns);
+    std::unordered_map<int64_t, std::unordered_set<int64_t>> failed_appends_by_key;
+    std::unordered_map<int64_t, const Op*> pending_invokes;
+    for (const auto& op : history.ops) {
+        if (op.type == OpType::kInvoke) {
+            pending_invokes[op.process] = &op;
+        } else if (op.type == OpType::kFail) {
+            if (pending_invokes.erase(op.process) == 0) continue;
+            for (const auto& mop : op.value) {
+                if (mop.type == MicroOpType::kAppend) {
+                    failed_appends_by_key[mop.key].insert(mop.append_val);
+                }
+            }
+        } else {
+            pending_invokes.erase(op.process);
+        }
+    }
+
+    auto [vo, inference_anomalies] = infer_version_orders(txns, failed_appends_by_key);
     result.key_count = vo.orders.size();
 
     // Convert inference anomalies to checker anomalies

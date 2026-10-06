@@ -7,9 +7,12 @@
 namespace isocheck {
 
 std::pair<VersionOrders, std::vector<InferenceAnomaly>>
-infer_version_orders(const std::vector<Transaction>& txns) {
+infer_version_orders(
+    const std::vector<Transaction>& txns,
+    const std::unordered_map<int64_t, std::unordered_set<int64_t>>& failed_appends_by_key) {
     VersionOrders vo;
     std::vector<InferenceAnomaly> anomalies;
+    auto known_values_by_key = failed_appends_by_key;
 
     // --- Step 1: Build the value→txn map (recoverability) ---
     // Each append value must be globally unique. If it's not, that's
@@ -17,6 +20,7 @@ infer_version_orders(const std::vector<Transaction>& txns) {
     for (const auto& txn : txns) {
         for (const auto& mop : txn.value) {
             if (mop.type != MicroOpType::kAppend) continue;
+            known_values_by_key[mop.key].insert(mop.append_val);
 
             auto [it, inserted] = vo.value_to_txn.try_emplace(
                 mop.append_val, txn.index);
@@ -99,7 +103,7 @@ infer_version_orders(const std::vector<Transaction>& txns) {
         // Check for garbage reads: values in the longest read that were
         // never appended by any transaction.
         for (int64_t val : longest->values) {
-            if (vo.value_to_txn.find(val) == vo.value_to_txn.end()) {
+            if (!known_values_by_key[key].count(val)) {
                 anomalies.push_back({
                     InferenceAnomaly::Type::kGarbageRead,
                     key,
@@ -153,7 +157,7 @@ infer_version_orders(const std::vector<Transaction>& txns) {
 
             // Also check for garbage reads in non-longest reads
             for (int64_t val : r.values) {
-                if (vo.value_to_txn.find(val) == vo.value_to_txn.end()) {
+                if (!known_values_by_key[key].count(val)) {
                     anomalies.push_back({
                         InferenceAnomaly::Type::kGarbageRead,
                         key,

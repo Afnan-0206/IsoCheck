@@ -15,6 +15,47 @@ import json
 import sys
 from pathlib import Path
 
+OP_TYPES = {"invoke", "ok", "fail", "info"}
+
+
+def validate_history(ops):
+    """Reject malformed operation sequences before converting to Elle EDN."""
+    pending = {}
+    for expected_index, data in enumerate(ops):
+        if data.get("index") != expected_index:
+            raise ValueError(
+                f"operation index {data.get('index')} is not dense; expected {expected_index}"
+            )
+        op_type = data.get("type")
+        process = data.get("process")
+        if op_type not in OP_TYPES:
+            raise ValueError(f"operation {expected_index} has unsupported type {op_type!r}")
+        if not isinstance(process, int):
+            raise ValueError(f"operation {expected_index} has non-integer process")
+        if op_type == "invoke":
+            if process in pending:
+                raise ValueError(f"process {process} invoked twice without completion")
+            pending[process] = expected_index
+        elif process not in pending:
+            raise ValueError(f"operation {expected_index} has no matching invoke")
+        else:
+            del pending[process]
+
+        value = data.get("value", [])
+        if not isinstance(value, list):
+            raise ValueError(f"operation {expected_index} value is not a list")
+        for mop in value:
+            if not isinstance(mop, list) or len(mop) != 3:
+                raise ValueError(f"operation {expected_index} has malformed micro-op {mop!r}")
+            if mop[0] in ("append", "w", "write"):
+                continue
+            if mop[0] in ("r", "read"):
+                continue
+            raise ValueError(f"operation {expected_index} has unknown micro-op {mop[0]!r}")
+
+    if pending:
+        raise ValueError(f"history ends with uncompleted invokes for processes {sorted(pending)}")
+
 
 def mop_to_edn(mop) -> str:
     """Convert a single micro-op tuple/list to EDN representation."""
@@ -56,12 +97,17 @@ def json_op_to_edn(data: dict) -> str:
 
 def convert_file(src_path: Path, dst_path: Path):
     """Convert a JSONL history file to an EDN history file."""
-    with open(src_path, "r", encoding="utf-8") as in_f, open(dst_path, "w", encoding="utf-8") as out_f:
+    ops = []
+    with open(src_path, "r", encoding="utf-8") as in_f:
         for line in in_f:
             line = line.strip()
             if not line or line.startswith("#"):
                 continue
-            data = json.loads(line)
+            ops.append(json.loads(line))
+
+    validate_history(ops)
+    with open(dst_path, "w", encoding="utf-8") as out_f:
+        for data in ops:
             out_f.write(json_op_to_edn(data) + "\n")
 
 

@@ -18,11 +18,28 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 ELLE_DIR = PROJECT_ROOT / "tests" / "elle"
 TEMP_EDN_DIR = ELLE_DIR / "temp_edn"
 DOCKER_IMAGE = "eclipse-temurin:21-jdk"
-CHECKER_BIN = Path(os.environ.get("CHECKER_BIN", str(Path.home() / "isocheck-build" / "cli" / "isocheck")))
+CONSISTENCY_MODEL = "read-committed"
+ELLE_JAR = ELLE_DIR / "elle-cli.jar"
+CHECKER_BIN = os.environ.get("CHECKER_BIN", str(Path.home() / "isocheck-build" / "cli" / "isocheck"))
+
+ANOMALY_EQUIVALENTS = {
+    "G0": {"G0"},
+    "G1a": {"G1a"},
+    "G1b": {"G1b"},
+    "G1c": {"G1c"},
+    "duplicate-read": {"duplicate-elements"},
+    "inconsistent-read": {"incompatible-order"},
+}
 
 
 def run_isocheck(history_path: Path) -> Dict[str, Any]:
-    cmd = [str(CHECKER_BIN), "--json", str(history_path)]
+    if os.name == "nt":
+        absolute = str(history_path.resolve())
+        drive = absolute[0].lower()
+        wsl_history = f"/mnt/{drive}/" + absolute[3:].replace("\\", "/")
+        cmd = ["wsl", "-e", CHECKER_BIN, "--json", wsl_history]
+    else:
+        cmd = [CHECKER_BIN, "--json", str(history_path)]
     proc = subprocess.run(cmd, capture_output=True, text=True)
     try:
         return json.loads(proc.stdout)
@@ -35,19 +52,18 @@ def run_isocheck(history_path: Path) -> Dict[str, Any]:
 
 
 def run_elle(edn_filename: str) -> Dict[str, Any]:
-    docker_mount = f"{ELLE_DIR}:/app"
-    container_edn_path = f"/app/temp_edn/{edn_filename}"
     cmd = [
-        "docker", "run", "--rm",
-        "-v", docker_mount,
-        DOCKER_IMAGE,
-        "java", "-jar", "/app/elle-cli.jar",
+        "java", "-jar", str(ELLE_JAR),
         "-m", "list-append",
         "-f", "edn",
         "-v", "json",
-        container_edn_path,
+        "--consistency-models", CONSISTENCY_MODEL,
+        str(TEMP_EDN_DIR / edn_filename),
     ]
-    proc = subprocess.run(cmd, capture_output=True, text=True)
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, timeout=20)
+    except subprocess.TimeoutExpired:
+        return {"valid?": None, "timeout": True}
     output = proc.stdout.strip()
     # Find JSON payload in stdout (ignoring warning lines)
     json_start = output.find("{")
@@ -104,13 +120,26 @@ def main():
         iso_anomalies = [a.get("type") for a in iso_res.get("anomalies", [])]
         iso_str = "CLEAN" if iso_valid else f"ANOM: {','.join(sorted(set(iso_anomalies)))}"
 
-        elle_valid = elle_res.get("valid?", False)
+        elle_valid = elle_res.get("valid?")
         elle_anomalies = elle_res.get("anomaly-types", [])
         elle_str = "CLEAN" if elle_valid else f"ANOM: {','.join(sorted(set(elle_anomalies)))}"
 
-        agree = (iso_valid == elle_valid)
+        iso_categories = {
+            mapped
+            for anomaly in iso_anomalies
+            for mapped in ANOMALY_EQUIVALENTS.get(anomaly, set())
+        }
+        elle_categories = set(elle_anomalies)
+        same_verdict = (iso_valid == elle_valid)
+        corresponding_anomaly = bool(iso_categories & elle_categories)
+        agree = (same_verdict and (iso_valid or corresponding_anomaly))
 
-        agree_str = "YES" if agree else "NO"
+        if elle_res.get("timeout"):
+            agree_str = "TIMEOUT"
+        elif elle_valid is None:
+            agree_str = "UNKNOWN"
+        else:
+            agree_str = "AGREE" if agree else "DISAGREE"
         print(f"{path.name:<38} | {category:<13} | {iso_str:<18} | {elle_str:<18} | {agree_str}")
 
         results.append({
@@ -120,6 +149,9 @@ def main():
             "isocheck_anomalies": iso_anomalies,
             "elle_valid": elle_valid,
             "elle_anomalies": elle_anomalies,
+            "consistency_model": CONSISTENCY_MODEL,
+            "same_verdict": same_verdict,
+            "corresponding_anomaly": corresponding_anomaly,
             "agree": agree,
         })
 

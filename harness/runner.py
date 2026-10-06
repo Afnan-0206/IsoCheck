@@ -40,6 +40,21 @@ class GlobalIndex:
             return cur
 
 
+def count_sqlstates(history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    counts: Dict[tuple, int] = {}
+    for op in history:
+        if op.get("type") not in ("fail", "info"):
+            continue
+        key = (op["type"], op.get("sqlstate"))
+        counts[key] = counts.get(key, 0) + 1
+    return [
+        {"status": status, "sqlstate": sqlstate, "count": count}
+        for (status, sqlstate), count in sorted(
+            counts.items(), key=lambda item: (item[0][0], item[0][1] or "")
+        )
+    ]
+
+
 def client_worker(
     process_id: int,
     conn_info: Dict[str, Any],
@@ -83,7 +98,7 @@ def client_worker(
                 with history_lock:
                     history_out.append(invoke_op)
 
-                status, observed = harness.execute_transaction(conn, template)
+                status, observed, sqlstate = harness.execute_transaction(conn, template)
                 complete_idx = global_index.next()
                 complete_time = time.time_ns()
 
@@ -95,6 +110,8 @@ def client_worker(
                     "value": observed,
                     "time": complete_time,
                 }
+                if sqlstate is not None:
+                    complete_op["sqlstate"] = sqlstate
 
                 with history_lock:
                     history_out.append(complete_op)

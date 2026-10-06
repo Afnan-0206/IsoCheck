@@ -29,6 +29,7 @@ from typing import List, Dict, Any, Optional, Tuple
 
 import psycopg
 from psycopg import errors
+from runner import count_sqlstates
 
 logging.basicConfig(
     level=logging.INFO,
@@ -54,7 +55,7 @@ def buggy_execute_transaction(
     conn: psycopg.Connection,
     template: List[Tuple[str, int, Optional[int]]],
     isolation_level: str,
-) -> Tuple[str, List[Any]]:
+) -> Tuple[str, List[Any], Optional[str]]:
     """
     Execute a transaction using the BUGGY pattern:
     - For appends: SELECT current value, append in Python, UPDATE with full list
@@ -111,17 +112,17 @@ def buggy_execute_transaction(
                                 read_list = json.loads(raw)
                         observed.append(["r", key, read_list])
 
-        return "ok", observed
+        return "ok", observed, None
 
-    except (errors.SerializationFailure, errors.DeadlockDetected):
-        return "fail", observed
-    except (errors.OperationalError, psycopg.OperationalError):
-        return "info", observed
+    except (errors.SerializationFailure, errors.DeadlockDetected) as e:
+        return "fail", observed, e.sqlstate
+    except (errors.OperationalError, psycopg.OperationalError) as e:
+        return "info", observed, e.sqlstate
     except Exception as e:
         sqlstate = getattr(e, "sqlstate", None)
         if sqlstate in ("40001", "40P01"):
-            return "fail", observed
-        return "info", observed
+            return "fail", observed, sqlstate
+        return "info", observed, sqlstate
 
 
 def buggy_client_worker(
@@ -174,7 +175,7 @@ def buggy_client_worker(
                 with history_lock:
                     history_out.append(invoke_op)
 
-                status, observed = buggy_execute_transaction(
+                status, observed, sqlstate = buggy_execute_transaction(
                     conn, template, isolation_level
                 )
 
@@ -188,6 +189,8 @@ def buggy_client_worker(
                     "value": observed,
                     "time": complete_time,
                 }
+                if sqlstate is not None:
+                    complete_op["sqlstate"] = sqlstate
                 with history_lock:
                     history_out.append(complete_op)
 
@@ -315,6 +318,7 @@ def main():
             "valid": check_data.get("valid", False),
             "anomalies": [a.get("type") for a in check_data.get("anomalies", [])],
             "stats": check_data.get("stats", {}),
+            "sqlstates": count_sqlstates(history),
         }
         results.append(run_result)
 

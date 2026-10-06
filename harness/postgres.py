@@ -42,7 +42,7 @@ class PostgresHarness:
         self,
         conn: psycopg.Connection,
         template: List[Tuple[str, int, Optional[int]]]
-    ) -> Tuple[str, List[Any]]:
+    ) -> Tuple[str, List[Any], Optional[str]]:
         """
         Executes a transaction of micro-ops.
         Returns (status, observed_value):
@@ -78,20 +78,20 @@ class PostgresHarness:
                                     read_list = json.loads(raw_val)
                             observed.append(["r", key, read_list])
 
-            return "ok", observed
+            return "ok", observed, None
 
         except (errors.SerializationFailure, errors.DeadlockDetected) as e:
             # Transaction explicitly aborted by database engine (e.g. 40001 or 40P01)
             # This is a definite fail
-            return "fail", observed
+            return "fail", observed, e.sqlstate
         except (errors.OperationalError, psycopg.OperationalError) as e:
             # Connection lost, timeout, socket closed mid-flight
             # Indeterminate: might have committed or might have aborted
-            return "info", observed
+            return "info", observed, e.sqlstate
         except Exception as e:
             # Check SQLSTATE if available
             sqlstate = getattr(e, "sqlstate", None)
             if sqlstate in ("40001", "40P01"):
-                return "fail", observed
+                return "fail", observed, sqlstate
             # Any other unknown or connection error -> info
-            return "info", observed
+            return "info", observed, sqlstate

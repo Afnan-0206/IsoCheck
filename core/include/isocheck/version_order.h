@@ -23,6 +23,7 @@
 #include <cstdint>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #include "history.h"
@@ -77,6 +78,8 @@ struct InferenceAnomaly {
 /// pass, so the user gets a complete picture. This is especially useful
 /// for debugging database behavior.
 std::pair<VersionOrders, std::vector<InferenceAnomaly>>
-infer_version_orders(const std::vector<Transaction>& txns);
+infer_version_orders(
+    const std::vector<Transaction>& txns,
+    const std::unordered_map<int64_t, std::unordered_set<int64_t>>& failed_appends_by_key = {});
 
 }  // namespace isocheck
