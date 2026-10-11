@@ -38,3 +38,8 @@ tests/elle/temp_edn/*.edn
 
 # Benchmark results (committed selectively)
 bench/results/
+
+# Web application
+website/node_modules/
+website/dist/
+website/.vite/
