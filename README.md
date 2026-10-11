@@ -3,6 +3,7 @@
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.2-blue.svg)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Web Playground](https://img.shields.io/badge/Web%20Playground-Live%20Demo-amber.svg)](https://afnan-0206.github.io/IsoCheck/#/playground)
 
 IsoCheck is a high-performance black-box transactional isolation checker implemented in **C++20** with a **Python 3.12** workload harness. It infers dependency graphs from client-observed transaction histories and detects isolation anomalies via strongly connected component (SCC) and minimal cycle search.
 
@@ -213,6 +214,15 @@ pytest tests/test_workload.py tests/test_elle_convert.py
 # Machine-readable JSON output
 ./build/cli/isocheck --json history.jsonl
 ```
+
+### Web Application & In-Browser Playground
+IsoCheck includes an in-browser WebAssembly-powered interactive documentation and testing playground:
+```bash
+cd website
+npm install
+npm run dev
+```
+Open `http://localhost:5173` to test transaction histories with real-time cycle visualization directly in your browser.
 
 ---
 
