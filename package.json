@@ -1,0 +1,17 @@
+{
+  "name": "isocheck",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Black-Box Transactional Isolation Checker for SQL Databases and Distributed Stores",
+  "workspaces": [
+    "website"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "npm --prefix website run dev",
+    "preview": "npm --prefix website run preview"
+  },
+  "devDependencies": {
+    "vite": "^8.3.0"
+  }
+}
