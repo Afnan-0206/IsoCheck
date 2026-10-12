@@ -1855,3 +1855,53 @@ tbody td strong {
     text-align: center;
   }
 }
+
+/* ==========================================================================
+   Legal & Static Pages
+   ========================================================================== */
+.legal-page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 32px 0;
+}
+
+.legal-page h1 {
+  font-size: 2.2rem;
+  margin-bottom: 8px;
+}
+
+.legal-date {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 16px;
+}
+
+.legal-page h2 {
+  font-size: 1.35rem;
+  margin-top: 32px;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.legal-page p {
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+/* Node pulse effect for cycle witness */
+.graph-node-pulse {
+  animation: cycle-node-glow 1.8s infinite ease-in-out;
+}
+
+@keyframes cycle-node-glow {
+  0%, 100% {
+    filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(239, 68, 68, 0.9));
+  }
+}
+
