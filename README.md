@@ -3,9 +3,65 @@
 [![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-17.2-blue.svg)](https://www.postgresql.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Web Playground](https://img.shields.io/badge/Web%20Playground-Live%20Demo-amber.svg)](https://afnan-0206.github.io/IsoCheck/#/playground)
+[![Live on Cloudflare](https://img.shields.io/badge/Live%20App-isocheck.pages.dev-orange?logo=cloudflare)](https://isocheck.pages.dev/)
+[![Web Playground](https://img.shields.io/badge/Web%20Playground-Open%20Tool-amber.svg)](https://isocheck.pages.dev/#/playground)
+
+> 🌐 **Live Web Application:** [https://isocheck.pages.dev/](https://isocheck.pages.dev/)  
+> ⚡ **Interactive Playground:** [https://isocheck.pages.dev/#/playground](https://isocheck.pages.dev/#/playground)
 
 IsoCheck is a high-performance black-box transactional isolation checker implemented in **C++20** with a **Python 3.12** workload harness. It infers dependency graphs from client-observed transaction histories and detects isolation anomalies via strongly connected component (SCC) and minimal cycle search.
+
+---
+
+## 🚀 Quick User Guide: How to Use IsoCheck (Simple & Fast)
+
+### What does IsoCheck do? (In Plain English)
+When multiple users or services update a database at the exact same millisecond, concurrent transactions can clash. If the database engine has concurrency or isolation bugs, updates can get silently overwritten (Dirty Writes), uncommitted edits can leak into reports (Dirty Reads), or transactions can see impossible circular states (Circular Flow).
+
+**IsoCheck** checks whether your database actually kept its consistency promises. You don't need root access, database server logs, or lock tables—it works purely from client-side observations ("black box").
+
+---
+
+### Method 1: Use the Live Web Playground (Zero Install, Runs in Your Browser)
+> 👉 **Try it right now:** [https://isocheck.pages.dev/#/playground](https://isocheck.pages.dev/#/playground)
+
+1. **Open the link:** Visit [https://isocheck.pages.dev/#/playground](https://isocheck.pages.dev/#/playground).
+2. **Choose a sample history:** Click any test button on the top bar:
+   - **`Clean (Valid)`**: A normal, serial history with no concurrency errors.
+   - **`G0 (Write Cycle)`**: Two transactions overwriting each other in conflicting order.
+   - **`G1a (Aborted Read)`**: A transaction reading data that was cancelled/rolled back.
+   - **`G1c (Circular Flow)`**: Circular information dependency across transactions.
+   - **`Garbage Read`**: A read returning data that was never written.
+3. **Click "Run Check"** (or press `Ctrl + Enter`):
+   - The C++ checking engine compiles to WebAssembly and runs **100% inside your browser**. Your data never leaves your computer!
+4. **Read the visual results:**
+   - **Dependency Graph:** Interactive graph where transactions are circles and dependencies are directed arrows. Any detected cycle glows in red!
+   - **Timeline Waterfall:** See concurrent client processes side-by-side on a timeline.
+   - **Verdict Report:** Clear `VALID` (green) or `VIOLATIONS DETECTED` (red) status with an exact proof witness.
+
+---
+
+### Method 2: Test Your Own Live Database (PostgreSQL, CockroachDB, TiDB)
+If you run a live database and want to test it:
+
+1. **Clone and build the CLI:**
+   ```bash
+   git clone https://github.com/Afnan-0206/IsoCheck.git
+   cd IsoCheck
+   cmake -B build -DCMAKE_BUILD_TYPE=Release && cmake --build build -j
+   ```
+2. **Run a test workload against PostgreSQL:**
+   ```bash
+   python harness/run_campaign.py \
+     --engine postgres \
+     --isolation read_committed \
+     --clients 8 \
+     --txns-per-client 500 \
+     --output my_run.jsonl
+   ```
+3. **Inspect the results:**
+   - **In your terminal:** `./build/cli/isocheck --input my_run.jsonl`
+   - **Or in your browser:** Drag and drop `my_run.jsonl` directly into the [Live Web Playground](https://isocheck.pages.dev/#/playground) for an instant visual dependency graph!
 
 ---
 

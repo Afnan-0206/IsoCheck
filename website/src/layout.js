@@ -92,14 +92,14 @@ export function renderLayout(mainContent) {
               <span class="tech-chip">C++20</span>
               <span class="tech-chip">WebAssembly</span>
               <span class="tech-chip">Adya PL-1..3</span>
-              <span class="tech-chip">Zero-Alloc Graph</span>
+              <a href="https://isocheck.pages.dev/" target="_blank" rel="noopener noreferrer" class="tech-chip" style="color: var(--accent); border-color: var(--accent-border);">isocheck.pages.dev ${icons.externalLink}</a>
             </div>
           </div>
 
           <div class="footer-col">
             <div class="footer-heading">Platform</div>
             <ul class="footer-list">
-              <li><a href="#/playground">WebAssembly Playground</a></li>
+              <li><a href="https://isocheck.pages.dev/#/playground">Web Playground (Cloudflare)</a></li>
               <li><a href="#/docs#cli-usage">CLI & Native Daemon</a></li>
               <li><a href="#/docs#jsonl-format">JSONL Specification</a></li>
               <li><a href="#/docs#pipeline">Checking Engine Pipeline</a></li>
@@ -130,9 +130,13 @@ export function renderLayout(mainContent) {
 
         <div class="footer-bottom">
           <div class="footer-bottom-left">
-            <span>&copy; 2026 IsoCheck Systems. Released under MIT License. Client-side execution; zero data transmission.</span>
+            <span>&copy; 2026 IsoCheck Systems. Deployed at <a href="https://isocheck.pages.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 500;">isocheck.pages.dev</a>. MIT License. Client-side execution; zero data transmission.</span>
           </div>
           <div class="footer-bottom-right">
+            <a href="https://isocheck.pages.dev/" class="footer-link" style="color: var(--accent);">
+              isocheck.pages.dev
+            </a>
+            <span class="footer-dot">•</span>
             <a href="https://github.com/Afnan-0206/IsoCheck" target="_blank" rel="noopener noreferrer" class="footer-link">
               ${icons.github} Repository
             </a>

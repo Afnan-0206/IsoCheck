@@ -34,6 +34,19 @@ export function renderPlayground() {
           <div class="sample-chips" id="sample-chips"></div>
         </div>
 
+        <!-- Simple User Guide Callout -->
+        <div style="background: rgba(229, 159, 59, 0.08); border: 1px solid rgba(229, 159, 59, 0.25); border-radius: var(--radius-sm); padding: 8px 14px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; font-size: 0.78rem; color: var(--text-secondary); flex-wrap: wrap; gap: 8px;">
+          <div>
+            <strong style="color: var(--accent);">Quick User Guide:</strong>
+            <span>1. Pick a test history above &bull; 2. Click <strong>Run Check</strong> (<kbd>Ctrl+↵</kbd>) &bull; 3. Inspect the graph and waterfall timeline on the right!</span>
+          </div>
+          <div>
+            <a href="https://isocheck.pages.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-family: var(--font-mono); font-size: 0.74rem;">
+              isocheck.pages.dev ${icons.externalLink}
+            </a>
+          </div>
+        </div>
+
         <!-- Split Workspace Grid -->
         <div class="workspace-grid">
           <!-- Left Panel: Input History & Editor -->

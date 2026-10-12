@@ -14,7 +14,7 @@ export function renderHome() {
           <div class="hero-text-col">
             <div class="hero-eyebrow">
               <span class="pulse-dot active"></span>
-              <span>BLACK-BOX TRANSACTIONAL VERIFICATION</span>
+              <span>DEPLOYED ON CLOUDFLARE: <a href="https://isocheck.pages.dev/" style="color: var(--accent); font-weight: 600;">ISOCHECK.PAGES.DEV</a></span>
             </div>
             <h1 class="hero-title">
               Detect isolation anomalies via <span class="text-accent">graph cycle witnesses</span>
@@ -25,13 +25,13 @@ export function renderHome() {
               Zero access to internal database engine logs or lock tables required.
             </p>
             <div class="hero-cta-group">
-              <a href="#/playground" class="btn btn-primary" id="hero-try-btn">
+              <a href="https://isocheck.pages.dev/#/playground" class="btn btn-primary" id="hero-try-btn">
                 ${icons.play}
                 <span>Open Web Playground</span>
               </a>
-              <a href="#/docs" class="btn btn-secondary" id="hero-docs-btn">
+              <a href="https://isocheck.pages.dev/#/docs" class="btn btn-secondary" id="hero-docs-btn">
                 ${icons.book}
-                <span>Read Specification</span>
+                <span>Read Simple Guide &amp; Docs</span>
               </a>
             </div>
 
@@ -75,9 +75,54 @@ export function renderHome() {
                 <span class="anomaly-badge badge-clean">VALID</span>
                 <span style="margin-left: 8px; color: var(--text-secondary);" id="bp-sub-text">Acyclic dependency graph. Strictly serializable execution order.</span>
               </div>
-              <a href="#/playground" class="btn btn-ghost btn-sm" id="bp-inspect-btn">
-                Inspect in Playground &rarr;
+              <a href="https://isocheck.pages.dev/#/playground" class="btn btn-ghost btn-sm" id="bp-inspect-btn">
+                Inspect at isocheck.pages.dev &rarr;
               </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Simple Beginner User Guide Section -->
+      <section style="margin-top: 52px;">
+        <div class="card card-elevated" style="border-color: rgba(229, 159, 59, 0.35); background: linear-gradient(180deg, rgba(229, 159, 59, 0.05) 0%, rgba(16, 20, 32, 0.95) 100%);">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <div>
+              <span class="section-tag" style="margin-bottom: 4px;">Zero-Setup User Guide</span>
+              <h2 style="font-size: 1.45rem; margin: 0;">How to Use IsoCheck in 3 Simple Steps</h2>
+              <p style="font-size: 0.84rem; color: var(--text-secondary); margin-top: 4px;">
+                No installation needed. The checker runs 100% inside your browser at <a href="https://isocheck.pages.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 500;">https://isocheck.pages.dev/</a>.
+              </p>
+            </div>
+            <a href="https://isocheck.pages.dev/#/playground" class="btn btn-primary btn-sm">
+              ${icons.play}
+              <span>Try It Live on Cloudflare</span>
+            </a>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px;">
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+              <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent); font-weight: 700; margin-bottom: 8px;">STEP 1 &bull; PICK OR PASTE</div>
+              <h4 style="margin-bottom: 6px; font-size: 0.95rem;">Select a Test History</h4>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                Click any test button above the editor (such as <em>G0 Dirty Write</em> or <em>Clean Valid</em>), or paste your own JSONL log of database operations.
+              </p>
+            </div>
+
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+              <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--valid); font-weight: 700; margin-bottom: 8px;">STEP 2 &bull; RUN IN BROWSER</div>
+              <h4 style="margin-bottom: 6px; font-size: 0.95rem;">Click "Run Check"</h4>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                Hit <kbd>Ctrl+Enter</kbd> or click <strong>Run Check</strong>. WebAssembly executes the C++ engine directly in your browser. Nothing is sent to any server.
+              </p>
+            </div>
+
+            <div style="background: var(--bg-void); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-sm);">
+              <div style="font-family: var(--font-mono); font-size: 0.74rem; color: var(--info-cyan); font-weight: 700; margin-bottom: 8px;">STEP 3 &bull; SEE RESULTS</div>
+              <h4 style="margin-bottom: 6px; font-size: 0.95rem;">View Graph &amp; Timeline</h4>
+              <p style="font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; margin: 0;">
+                See whether your history is <span style="color: var(--valid); font-weight: 600;">VALID</span> or has bugs. Switch between the <strong>Dependency Graph</strong> and <strong>Timeline Waterfall</strong>!
+              </p>
             </div>
           </div>
         </div>

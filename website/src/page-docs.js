@@ -27,7 +27,8 @@ export function renderDocs() {
           <div class="sidebar-group" data-group="getting-started">
             <div class="sidebar-heading">Getting Started</div>
             <ul>
-              <li><a href="#overview" class="active" data-section="overview">Overview &amp; Philosophy</a></li>
+              <li><a href="#simple-guide" class="active" data-section="simple-guide">Simple User Guide</a></li>
+              <li><a href="#overview" data-section="overview">Overview &amp; Philosophy</a></li>
               <li><a href="#jsonl-format" data-section="jsonl-format">JSONL History Spec</a></li>
               <li><a href="#cli-usage" data-section="cli-usage">CLI &amp; Daemon Usage</a></li>
             </ul>
@@ -76,14 +77,60 @@ export function renderDocs() {
 
         <!-- Documentation Main Content -->
         <article class="docs-content" id="docs-content">
+          <!-- Simple User Guide -->
+          <section id="simple-guide" class="docs-doc-section">
+            <h2>Simple User Guide: How to Use IsoCheck</h2>
+            <p>
+              New to transactional isolation? Here is everything you need to know in simple, non-academic language.
+            </p>
+
+            <div class="card card-elevated" style="margin: 20px 0; border-color: rgba(229, 159, 59, 0.4);">
+              <h3 style="margin-top: 0; color: var(--accent);">What is an "Isolation Bug"? (The Coffee Shop Analogy)</h3>
+              <p style="font-size: 0.88rem; line-height: 1.6;">
+                Imagine two customers ordering the last sandwich at the exact same second:
+              </p>
+              <ul style="font-size: 0.86rem; margin-bottom: 0;">
+                <li><strong>Dirty Write (G0):</strong> Customer A pays for the sandwich, but Customer B's payment overwrites the order without noticing. Neither gets the complete sandwich!</li>
+                <li><strong>Aborted Read (G1a):</strong> Customer A starts ordering, sees an error, and cancels. But Customer B already saw Customer A's cancelled order and acts on it.</li>
+                <li><strong>Circular Dependency (G1c):</strong> Customer A pays based on Customer B's order, while Customer B pays based on Customer A's order, creating an impossible loop.</li>
+              </ul>
+              <p style="font-size: 0.88rem; margin-top: 12px; margin-bottom: 0;">
+                <strong>IsoCheck tests whether your database protects against these glitches</strong> when hundreds of queries execute simultaneously.
+              </p>
+            </div>
+
+            <h3>How to Use in 3 Quick Steps</h3>
+            <ol style="margin-left: 20px; line-height: 1.8; font-size: 0.92rem; color: var(--text-secondary);">
+              <li>
+                <strong>Open the Web Playground:</strong> Go to <a href="https://isocheck.pages.dev/#/playground" style="color: var(--accent); font-weight: 600;">https://isocheck.pages.dev/#/playground</a>.
+              </li>
+              <li>
+                <strong>Choose or paste a trace:</strong> Click any test button on the top bar (e.g. <em>Clean</em>, <em>G0 Write Cycle</em>, <em>G1a Aborted Read</em>), or drag and drop your own <code>.jsonl</code> log file.
+              </li>
+              <li>
+                <strong>Click "Run Check":</strong> Press <kbd>Ctrl+Enter</kbd>. In less than 1 millisecond, the C++ WebAssembly engine checks every transaction and shows you:
+                <ul style="margin-top: 6px;">
+                  <li><strong style="color: var(--valid);">VALID:</strong> Your transactions executed cleanly in serial order.</li>
+                  <li><strong style="color: var(--invalid);">INVALID:</strong> A concurrency violation was found, complete with the exact circle of transactions that caused it!</li>
+                </ul>
+              </li>
+            </ol>
+
+            <div style="margin-top: 18px;">
+              <a href="https://isocheck.pages.dev/#/playground" class="btn btn-primary btn-sm">
+                ${icons.play}
+                <span>Open isocheck.pages.dev Playground</span>
+              </a>
+            </div>
+          </section>
+
           <!-- Overview -->
           <section id="overview" class="docs-doc-section">
             <h2>Overview &amp; Philosophy</h2>
             <p>
               <strong>IsoCheck</strong> is an industrial-strength, black-box transactional isolation checker
               for SQL databases (PostgreSQL, MySQL, CockroachDB, TiDB, YugabyteDB) and distributed key-value stores.
-              It verifies whether a database engine respects declared isolation guarantees without requiring root access
-              to internal logs, lock managers, or MVCC storage records.
+              Try the live WebAssembly app deployed at <a href="https://isocheck.pages.dev/" target="_blank" rel="noopener noreferrer" style="color: var(--accent); font-weight: 500;">https://isocheck.pages.dev/</a>.
             </p>
 
             <div class="docs-callout purple">
